@@ -15,66 +15,46 @@ int main()
     printf("Starting address: ");
     scanf("%d", &starting_add);
 
-    int f[frame],pa[frame],pagetable[frame];
+    int f[frame], pa[frame], pagetable[frame];
     f[0] = starting_add;
 
     pa[0] = -1;
 
     for (int i = 1; i < frame; i++)
     {
-        f[i]=f[i-1]+framesize; 
-        pa[i] = -1;            
+        f[i] = f[i - 1] + framesize;
+        pa[i] = -1;
     }
 
-
-
-    int count  = 0;
+    int count = 0;
 
     srand(time(NULL));
-    while(count<pages)
+    while (count < pages)
     {
-        int x = rand()%frame;
-        if(pa[x]==-1)
+        int x = rand() % frame;
+        if (pa[x] == -1)
         {
             pa[x] = count;
-            count++;                       
-
+            pagetable[count] = x;
+            count++;
         }
     }
 
-
-    
-
-
-
-    
     printf("Frame_No\t\tPage\t\tPhysical_Add");
 
     for (int i = 0; i < frame; i++)
     {
-        printf("\n%d\t\t%d\t\t%d\n",i,pa[i],f[i]);
+        printf("\n%d\t\t%d\t\t%d\n", i, pa[i], f[i]);
     }
 
-    int pg,off;
+    int pg, off;
     printf("\nEnter Pg name=");
-    scanf("%d",&pg);
-    
+    scanf("%d", &pg);
+
     printf("\nEnter Offset=");
-    scanf("%d",&off);
+    scanf("%d", &off);
 
-    for(int i=0;i<frame;i++)
-    {
-        if(pa[i]==pg)
-        {
-            printf("%d",f[i]+off);
-        }
-    }
-
-
-    
-    
-
-    
+    printf("\nPhysical address=%d", f[pagetable[pg]] + off);
 
     return 0;
 }
